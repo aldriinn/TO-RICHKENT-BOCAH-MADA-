@@ -1,135 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine?</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine Special</title>
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        background: linear-gradient(135deg, #ffe6f0, #ffd6ec);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial, sans-serif;
-        overflow: hidden;
-    }
-
-    .card {
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        position: relative;
-    }
-
-    h1 {
-        color: #e91e63;
-        margin-bottom: 15px;
-    }
-
-    img {
-        width: 180px;
-        margin-bottom: 15px;
-        border-radius: 12px;
-    }
-
-    .buttons {
-        margin-top: 20px;
-        position: relative;
-        height: 60px;
-    }
-
-    button {
-        padding: 12px 25px;
-        font-size: 16px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        position: absolute;
-        transition: 0.3s ease;
-    }
-
-    #yesBtn {
-        background: #e91e63;
-        color: white;
-        left: 30%;
-    }
-
-    #noBtn {
-        background: #ccc;
-        left: 55%;
-    }
-
-    button:hover {
-        transform: scale(1.1);
-    }
-
-    .heart {
-        position: absolute;
-        bottom: -20px;
-        color: #ff4d88;
-        animation: floatUp 5s linear infinite;
-    }
-
-    @keyframes floatUp {
-        0% { transform: translateY(0); opacity: 1; }
-        100% { transform: translateY(-100vh); opacity: 0; }
-    }
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(#ffd6e7,#fff);
+    overflow-x:hidden;
+    text-align:center;
+  }
+  h1{color:#ff2e63;margin-top:40px}
+  .card{
+    background:white;
+    max-width:420px;
+    margin:20px auto;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  }
+  button{
+    padding:12px 22px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+    margin:8px;
+  }
+  .yes{background:#ff4d6d;color:white}
+  .no{background:#ddd}
+  #heartRain span{
+    position:fixed;
+    top:-10px;
+    font-size:20px;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    to{transform:translateY(110vh);opacity:0}
+  }
+  #game{
+    position:relative;
+    height:220px;
+    border:2px dashed #ff4d6d;
+    border-radius:15px;
+    overflow:hidden;
+    margin-top:15px;
+  }
+  .target{
+    position:absolute;
+    font-size:26px;
+    cursor:pointer;
+  }
 </style>
 </head>
-
 <body>
 
+<h1>Happy Valentine ❤️</h1>
+
 <div class="card">
-    <h1>Will You Be My Valentine? ❤️</h1>
-
-    <!-- GANTI GIF DI SINI -->
-    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cute">
-
-    <div class="buttons">
-        <button id="yesBtn" onclick="sayYes()">YES 💖</button>
-        <button id="noBtn">NO 😢</button>
-    </div>
+  <h2>Pesan Untuk Kamu</h2>
+  <p>Aku cuma mau bilang...
+  <br><b>Kamu itu spesial banget buat aku 💖</b></p>
 </div>
 
-<script>
-const noBtn = document.getElementById("noBtn");
+<div class="card">
+  <h2>Will you be my Valentine?</h2>
+  <button class="yes" onclick="accepted()">Yes 💕</button>
+  <button class="no" id="noBtn">No 😢</button>
+  <p id="answer"></p>
+</div>
 
-noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+<div class="card">
+  <h2>Mini Game: Tangkap Hati!</h2>
+  <p>Score: <span id="score">0</span></p>
+  <div id="game"></div>
+</div>
+
+<div id="heartRain"></div>
+
+<script>
+// tombol kabur
+const noBtn=document.getElementById('noBtn');
+noBtn.addEventListener('mouseover',()=>{
+  noBtn.style.position='absolute';
+  noBtn.style.left=Math.random()*80+'%';
+  noBtn.style.top=Math.random()*80+'%';
 });
 
-function sayYes() {
-    document.body.innerHTML = `
-        <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;font-family:Arial;">
-            <h1 style="color:#e91e63;">YAYYY ❤️</h1>
-            <p>Aku senang banget kamu pilih YES 😍</p>
-        </div>
-    `;
-    startHearts();
+function accepted(){
+  document.getElementById('answer').innerHTML='Yay! Aku juga sayang kamu 💞';
+  heartRain(40);
 }
 
-function startHearts() {
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = Math.random() * 20 + 20 + "px";
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
-    }, 300);
+// hujan hati
+function heartRain(total){
+  for(let i=0;i<total;i++){
+    let heart=document.createElement('span');
+    heart.innerHTML='❤️';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.animationDuration=(Math.random()*2+3)+'s';
+    document.getElementById('heartRain').appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }
 }
+
+// mini game
+let score=0;
+const game=document.getElementById('game');
+
+function spawnHeart(){
+  const heart=document.createElement('div');
+  heart.className='target';
+  heart.innerHTML='💗';
+  heart.style.left=Math.random()*90+'%';
+  heart.style.top=Math.random()*80+'%';
+  heart.onclick=()=>{
+    score++;
+    document.getElementById('score').innerText=score;
+    heart.remove();
+    heartRain(5);
+  }
+  game.appendChild(heart);
+  setTimeout(()=>heart.remove(),1200);
+}
+setInterval(spawnHeart,900);
 </script>
 
 </body>
